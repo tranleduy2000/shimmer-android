@@ -16,7 +16,6 @@ import android.widget.Button
 import android.widget.Toast
 import com.facebook.shimmer.Shimmer
 import com.facebook.shimmer.ShimmerFrameLayout
-import kotlinx.android.synthetic.main.main.*
 
 class MainActivity : Activity(), View.OnClickListener {
   private lateinit var shimmerViewContainer: ShimmerFrameLayout
@@ -27,16 +26,17 @@ class MainActivity : Activity(), View.OnClickListener {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.main)
-    shimmerViewContainer = shimmer_view_container
+    shimmerViewContainer = findViewById(R.id.shimmer_view_container)
     presetButtons =
-        arrayOf(
-            preset_button0,
-            preset_button1,
-            preset_button2,
-            preset_button3,
-            preset_button4,
-            preset_button5,
-            preset_button6)
+      arrayOf(
+        findViewById(R.id.preset_button0),
+        findViewById(R.id.preset_button1),
+        findViewById(R.id.preset_button2),
+        findViewById(R.id.preset_button3),
+        findViewById(R.id.preset_button4),
+        findViewById(R.id.preset_button5),
+        findViewById(R.id.preset_button6)
+      )
     presetButtons.forEach { it.setOnClickListener(this@MainActivity) }
     selectPreset(0, false)
   }
@@ -71,53 +71,60 @@ class MainActivity : Activity(), View.OnClickListener {
 
     val shimmerBuilder = Shimmer.AlphaHighlightBuilder()
     shimmerViewContainer.setShimmer(
-        when (preset) {
-          1 -> {
-            // Slow and reverse
-            toast = Toast.makeText(this, "Slow and reverse", Toast.LENGTH_SHORT)
-            shimmerBuilder.setDuration(5000L).setRepeatMode(ValueAnimator.REVERSE)
-          }
-          2 -> {
-            // Thin, straight and transparent
-            toast = Toast.makeText(this, "Thin, straight and transparent", Toast.LENGTH_SHORT)
-            shimmerBuilder.setBaseAlpha(0.1f).setDropoff(0.1f).setTilt(0f)
-          }
-          3 -> {
-            // Sweep angle 90
-            toast = Toast.makeText(this, "Sweep angle 90", Toast.LENGTH_SHORT)
-            shimmerBuilder.setDirection(Shimmer.Direction.TOP_TO_BOTTOM).setTilt(0f)
-          }
-          4 -> {
-            // Spotlight
-            toast = Toast.makeText(this, "Spotlight", Toast.LENGTH_SHORT)
-            shimmerBuilder
-                .setBaseAlpha(0f)
-                .setDuration(2000L)
-                .setDropoff(0.1f)
-                .setIntensity(0.35f)
-                .setShape(Shimmer.Shape.RADIAL)
-          }
-          5 -> {
-            // Spotlight angle 45
-            toast = Toast.makeText(this, "Spotlight angle 45", Toast.LENGTH_SHORT)
-            shimmerBuilder
-                .setBaseAlpha(0f)
-                .setDuration(2000L)
-                .setDropoff(0.1f)
-                .setIntensity(0.35f)
-                .setTilt(45f)
-                .setShape(Shimmer.Shape.RADIAL)
-          }
-          6 -> {
-            // Off
-            toast = Toast.makeText(this, "Off", Toast.LENGTH_SHORT)
-            null
-          }
-          else -> {
-            toast = Toast.makeText(this, "Default", Toast.LENGTH_SHORT)
-            shimmerBuilder
-          }
-        }?.build())
+      when (preset) {
+        1 -> {
+          // Slow and reverse
+          toast = Toast.makeText(this, "Slow and reverse", Toast.LENGTH_SHORT)
+          shimmerBuilder.setDuration(5000L).setRepeatMode(ValueAnimator.REVERSE)
+        }
+
+        2 -> {
+          // Thin, straight and transparent
+          toast = Toast.makeText(this, "Thin, straight and transparent", Toast.LENGTH_SHORT)
+          shimmerBuilder.setBaseAlpha(0.1f).setDropoff(0.1f).setTilt(0f)
+        }
+
+        3 -> {
+          // Sweep angle 90
+          toast = Toast.makeText(this, "Sweep angle 90", Toast.LENGTH_SHORT)
+          shimmerBuilder.setDirection(Shimmer.Direction.TOP_TO_BOTTOM).setTilt(0f)
+        }
+
+        4 -> {
+          // Spotlight
+          toast = Toast.makeText(this, "Spotlight", Toast.LENGTH_SHORT)
+          shimmerBuilder
+            .setBaseAlpha(0f)
+            .setDuration(2000L)
+            .setDropoff(0.1f)
+            .setIntensity(0.35f)
+            .setShape(Shimmer.Shape.RADIAL)
+        }
+
+        5 -> {
+          // Spotlight angle 45
+          toast = Toast.makeText(this, "Spotlight angle 45", Toast.LENGTH_SHORT)
+          shimmerBuilder
+            .setBaseAlpha(0f)
+            .setDuration(2000L)
+            .setDropoff(0.1f)
+            .setIntensity(0.35f)
+            .setTilt(45f)
+            .setShape(Shimmer.Shape.RADIAL)
+        }
+
+        6 -> {
+          // Off
+          toast = Toast.makeText(this, "Off", Toast.LENGTH_SHORT)
+          null
+        }
+
+        else -> {
+          toast = Toast.makeText(this, "Default", Toast.LENGTH_SHORT)
+          shimmerBuilder
+        }
+      }?.build()
+    )
 
     // Show toast describing the chosen preset, if necessary
     if (showToast) {

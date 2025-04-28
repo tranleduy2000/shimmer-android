@@ -8,12 +8,12 @@
 
 ext {
   versions = [
-      targetSdk          : 28,
-      compileSdk         : 28,
-      minSdk             : 14,
-      buildTools         : '28.0.3',
-      kotlin             : '1.4.10',
-      androidGradlePlugin: '4.1.0',
+      targetSdk          : 35,
+      compileSdk         : 35,
+      minSdk             : 24,
+      //buildTools         : '28.0.3',
+      kotlin             : '1.9.25',
+      androidGradlePlugin: '8.9.2',
       constraintLayout   : '2.0.4',
       androidXAnnotations: '1.0.1',
   ]
@@ -24,8 +24,8 @@ ext {
   ]
 
   deps = [
-      shimmer            : "com.facebook.shimmer:shimmer:$VERSION_NAME",
-      kotlinStdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
+      //shimmer            : "com.facebook.shimmer:shimmer:$VERSION_NAME",
+      //kotlinStdlib       : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:${versions.kotlin}",
       constraintLayout   : "androidx.constraintlayout:constraintlayout:${versions.constraintLayout}",
       androidXAnnotations: "androidx.annotation:annotation:${versions.androidXAnnotations}",
   ]
