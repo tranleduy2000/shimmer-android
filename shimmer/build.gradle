@@ -10,15 +10,15 @@ apply plugin: 'com.android.library'
 
 android {
   namespace 'com.facebook.shimmer'
-  compileSdk versions.compileSdk
+  compileSdk 35
 
   defaultConfig {
-    minSdk versions.minSdk
+    minSdk 24
   }
 }
 
 dependencies {
-  implementation deps.androidXAnnotations
+  implementation 'androidx.annotation:annotation:1.9.1'
 }
 
 //apply from: rootProject.file('gradle/gradle-mvn-push.gradle')
