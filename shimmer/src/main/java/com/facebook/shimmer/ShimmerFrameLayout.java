@@ -153,7 +153,7 @@ public class ShimmerFrameLayout extends FrameLayout {
   protected void onVisibilityChanged(View changedView, int visibility) {
     super.onVisibilityChanged(changedView, visibility);
     // View's constructor directly invokes this method, in which case no fields on
-    // this class have been fully initialized yet.
+    // this clazz have been fully initialized yet.
     if (mShimmerDrawable == null) {
       return;
     }
