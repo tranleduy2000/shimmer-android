@@ -60,7 +60,7 @@ public class ShimmerFrameLayout extends FrameLayout {
 
         TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.ShimmerFrameLayout, 0, 0);
         try {
-            Shimmer.Builder shimmerBuilder =
+            Shimmer.Builder<?> shimmerBuilder =
                 a.hasValue(R.styleable.ShimmerFrameLayout_shimmer_colored)
                     && a.getBoolean(R.styleable.ShimmerFrameLayout_shimmer_colored, false)
                     ? new Shimmer.ColorHighlightBuilder()
@@ -82,6 +82,9 @@ public class ShimmerFrameLayout extends FrameLayout {
         return this;
     }
 
+    /**
+     * @noinspection unused
+     */
     public @Nullable Shimmer getShimmer() {
         return mShimmerDrawable.getShimmer();
     }
@@ -114,6 +117,7 @@ public class ShimmerFrameLayout extends FrameLayout {
      * Sets the ShimmerDrawable to be visible.
      *
      * @param startShimmer Whether to start the shimmer again.
+     * @noinspection unused
      */
     public void showShimmer(boolean startShimmer) {
         mShowShimmer = true;
@@ -125,6 +129,8 @@ public class ShimmerFrameLayout extends FrameLayout {
 
     /**
      * Sets the ShimmerDrawable to be invisible, stopping it in the process.
+     *
+     * @noinspection unused
      */
     public void hideShimmer() {
         stopShimmer();
@@ -134,11 +140,16 @@ public class ShimmerFrameLayout extends FrameLayout {
 
     /**
      * Return whether the shimmer drawable is visible.
+     *
+     * @noinspection unused
      */
     public boolean isShimmerVisible() {
         return mShowShimmer;
     }
 
+    /**
+     * @noinspection unused
+     */
     public boolean isShimmerRunning() {
         return mShimmerDrawable.isShimmerRunning();
     }
@@ -152,7 +163,7 @@ public class ShimmerFrameLayout extends FrameLayout {
     }
 
     @Override
-    protected void onVisibilityChanged(View changedView, int visibility) {
+    protected void onVisibilityChanged(@NonNull View changedView, int visibility) {
         super.onVisibilityChanged(changedView, visibility);
         // View's constructor directly invokes this method, in which case no fields on
         // this clazz have been fully initialized yet.
@@ -184,7 +195,7 @@ public class ShimmerFrameLayout extends FrameLayout {
     }
 
     @Override
-    public void dispatchDraw(Canvas canvas) {
+    public void dispatchDraw(@NonNull Canvas canvas) {
         super.dispatchDraw(canvas);
         if (mShowShimmer) {
             mShimmerDrawable.draw(canvas);
@@ -196,10 +207,16 @@ public class ShimmerFrameLayout extends FrameLayout {
         return super.verifyDrawable(who) || who == mShimmerDrawable;
     }
 
+    /**
+     * @noinspection unused
+     */
     public void setStaticAnimationProgress(float value) {
         mShimmerDrawable.setStaticAnimationProgress(value);
     }
 
+    /**
+     * @noinspection unused
+     */
     public void clearStaticAnimationProgress() {
         mShimmerDrawable.clearStaticAnimationProgress();
     }
