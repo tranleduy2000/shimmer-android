@@ -27,12 +27,7 @@ import androidx.annotation.Nullable;
 
 public final class ShimmerDrawable extends Drawable {
   private final ValueAnimator.AnimatorUpdateListener mUpdateListener =
-      new ValueAnimator.AnimatorUpdateListener() {
-        @Override
-        public void onAnimationUpdate(ValueAnimator animation) {
-          invalidateSelf();
-        }
-      };
+      animation -> invalidateSelf();
 
   private final Paint mShimmerPaint = new Paint();
   private final Rect mDrawRect = new Rect();
@@ -88,7 +83,7 @@ public final class ShimmerDrawable extends Drawable {
   }
 
   @Override
-  public void onBoundsChange(Rect bounds) {
+  public void onBoundsChange(@NonNull Rect bounds) {
     super.onBoundsChange(bounds);
     mDrawRect.set(bounds);
     updateShader();
