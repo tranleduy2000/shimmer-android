@@ -8,6 +8,7 @@
 
 package com.facebook.shimmer;
 
+import android.animation.Animator;
 import android.animation.ValueAnimator;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
@@ -91,6 +92,25 @@ public final class ShimmerDrawable extends Drawable {
      */
     public boolean isShimmerRunning() {
         return mValueAnimator != null && mValueAnimator.isRunning();
+    }
+
+    /**
+     * Registers a listener on the underlying shimmer animator. Use {@code onAnimationRepeat} to be
+     * notified when each shimmer sweep finishes (the animation repeats infinitely by default).
+     */
+    public void addAnimatorListener(@NonNull Animator.AnimatorListener listener) {
+        if (mValueAnimator != null) {
+            mValueAnimator.addListener(listener);
+        }
+    }
+
+    /**
+     * Removes a listener previously added via {@link #addAnimatorListener(Animator.AnimatorListener)}.
+     */
+    public void removeAnimatorListener(@NonNull Animator.AnimatorListener listener) {
+        if (mValueAnimator != null) {
+            mValueAnimator.removeListener(listener);
+        }
     }
 
     @Override

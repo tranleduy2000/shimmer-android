@@ -8,6 +8,7 @@
 
 package com.facebook.shimmer;
 
+import android.animation.Animator;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -111,6 +112,22 @@ public class ShimmerFrameLayout extends FrameLayout {
      */
     public boolean isShimmerStarted() {
         return mShimmerDrawable.isShimmerStarted();
+    }
+
+    /**
+     * Registers a listener on the underlying shimmer animator. Use {@code onAnimationRepeat} to be
+     * notified when each shimmer sweep finishes, so a caller can hide the view without cutting the
+     * animation off mid-sweep.
+     */
+    public void addAnimatorListener(@NonNull Animator.AnimatorListener listener) {
+        mShimmerDrawable.addAnimatorListener(listener);
+    }
+
+    /**
+     * Removes a listener previously added via {@link #addAnimatorListener(Animator.AnimatorListener)}.
+     */
+    public void removeAnimatorListener(@NonNull Animator.AnimatorListener listener) {
+        mShimmerDrawable.removeAnimatorListener(listener);
     }
 
     /**
