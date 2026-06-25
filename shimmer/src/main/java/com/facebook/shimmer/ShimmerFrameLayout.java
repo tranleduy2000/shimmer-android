@@ -9,6 +9,7 @@
 package com.facebook.shimmer;
 
 import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
@@ -34,6 +35,7 @@ public class ShimmerFrameLayout extends FrameLayout {
 
     private boolean mShowShimmer = true;
     private boolean mStoppedShimmerBecauseVisibility = false;
+    private @Nullable Animator.AnimatorListener mPendingHideListener;
 
     public ShimmerFrameLayout(Context context) {
         super(context);
@@ -128,6 +130,54 @@ public class ShimmerFrameLayout extends FrameLayout {
      */
     public void removeAnimatorListener(@NonNull Animator.AnimatorListener listener) {
         mShimmerDrawable.removeAnimatorListener(listener);
+    }
+
+    /**
+     * Hides this view ({@link View#GONE}) once the current shimmer sweep finishes, instead of
+     * cutting the animation off mid-sweep. Because the shimmer animation repeats infinitely, this
+     * waits for the next repeat (the end of a sweep), then stops the shimmer and hides the view. If
+     * the shimmer is not currently animating, it hides immediately. Calling
+     * {@link #cancelPendingShimmerHide()} (e.g. when showing the shimmer again) cancels a pending hide.
+     */
+    public void hideShimmerWhenSweepEnds() {
+        if (mPendingHideListener != null) {
+            return; // a hide is already pending
+        }
+        if (!isShimmerStarted()) {
+            setVisibility(GONE);
+            stopShimmer();
+            return;
+        }
+        Animator.AnimatorListener listener =
+            new AnimatorListenerAdapter() {
+                @Override
+                public void onAnimationRepeat(@NonNull Animator animation) {
+                    final Animator.AnimatorListener self = this;
+                    // Defer out of the animator callback before touching the animation / its listeners.
+                    post(
+                        () -> {
+                            if (mPendingHideListener != self) {
+                                return; // superseded by a re-show / cancel
+                            }
+                            removeAnimatorListener(self);
+                            mPendingHideListener = null;
+                            setVisibility(GONE);
+                            stopShimmer();
+                        });
+                }
+            };
+        mPendingHideListener = listener;
+        addAnimatorListener(listener);
+    }
+
+    /**
+     * Cancels a hide scheduled by {@link #hideShimmerWhenSweepEnds()} that has not run yet.
+     */
+    public void cancelPendingShimmerHide() {
+        if (mPendingHideListener != null) {
+            removeAnimatorListener(mPendingHideListener);
+            mPendingHideListener = null;
+        }
     }
 
     /**
