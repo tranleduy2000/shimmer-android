@@ -299,6 +299,30 @@ public final class ShimmerDrawable extends Drawable {
     }
 
     /**
+     * Sets the dropoff value for the shimmer effect, controlling the fade-out intensity of the shimmer.
+     * If the dropoff value differs from the current one and a shimmer is configured, the shader will be updated
+     * and the drawable will be invalidated to reflect the change.
+     *
+     * @param dropoff The new dropoff value for the shimmer effect. This value determines how quickly
+     *                the shimmer fades out from its highlight color to its base color.
+     */
+    public void setDropoff(float dropoff) {
+        if (mShimmer != null && mShimmer.dropoff != dropoff) {
+            mShimmer.dropoff = dropoff;
+            updateShader();
+            invalidateSelf();
+        }
+    }
+
+    public void setIntensity(float intensity) {
+        if (mShimmer != null && mShimmer.intensity != intensity) {
+            mShimmer.intensity = intensity;
+            updateShader();
+            invalidateSelf();
+        }
+    }
+
+    /**
      * Set the alpha component of {@code color} to be {@code alpha}.
      */
     @ColorInt
