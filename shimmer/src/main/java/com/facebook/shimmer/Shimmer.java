@@ -105,6 +105,16 @@ public class Shimmer {
         return fixedHeight > 0 ? fixedHeight : Math.round(heightRatio * height);
     }
 
+    public void setHighlightColor(@ColorInt int highlightColor) {
+        this.highlightColor = highlightColor;
+        updateColors();
+    }
+
+    public void setBaseColor(@ColorInt int baseColor) {
+        this.baseColor = baseColor;
+        updateColors();
+    }
+
     /**
      * @noinspection DefaultNotLastCaseInSwitch
      */

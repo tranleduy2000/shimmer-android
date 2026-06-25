@@ -207,6 +207,11 @@ public class ShimmerFrameLayout extends FrameLayout {
         return super.verifyDrawable(who) || who == mShimmerDrawable;
     }
 
+    @NonNull
+    public ShimmerDrawable getShimmerDrawable() {
+        return mShimmerDrawable;
+    }
+
     /**
      * @noinspection unused
      */
