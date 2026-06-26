@@ -140,12 +140,27 @@ public class ShimmerFrameLayout extends FrameLayout {
      * {@link #cancelPendingShimmerHide()} (e.g. when showing the shimmer again) cancels a pending hide.
      */
     public void hideShimmerWhenSweepEnds() {
+        hideShimmerWhenSweepEnds(null);
+    }
+
+    /**
+     * Same as {@link #hideShimmerWhenSweepEnds()}, but runs {@code onHidden} right after the view is
+     * actually hidden — immediately when the shimmer is not animating, or once the current sweep
+     * ends when it is. Lets a caller sync a sibling animation (e.g. fading a dim overlay out) with
+     * the moment the shimmer truly disappears, rather than the moment the hide is requested.
+     *
+     * @param onHidden optional callback run on the main thread after the view goes {@link View#GONE}.
+     */
+    public void hideShimmerWhenSweepEnds(@Nullable Runnable onHidden) {
         if (mPendingHideListener != null) {
             return; // a hide is already pending
         }
         if (!isShimmerStarted()) {
             setVisibility(GONE);
             stopShimmer();
+            if (onHidden != null) {
+                onHidden.run();
+            }
             return;
         }
         Animator.AnimatorListener listener =
@@ -163,6 +178,9 @@ public class ShimmerFrameLayout extends FrameLayout {
                             mPendingHideListener = null;
                             setVisibility(GONE);
                             stopShimmer();
+                            if (onHidden != null) {
+                                onHidden.run();
+                            }
                         });
                 }
             };

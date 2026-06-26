@@ -322,6 +322,13 @@ public final class ShimmerDrawable extends Drawable {
         }
     }
 
+    public void setDuration(long duration) {
+        if (mShimmer != null && mShimmer.animationDuration != duration) {
+            mShimmer.animationDuration = duration;
+            updateValueAnimator();
+        }
+    }
+
     /**
      * Set the alpha component of {@code color} to be {@code alpha}.
      */
